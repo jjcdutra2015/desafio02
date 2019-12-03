@@ -27,16 +27,6 @@ class PlanController {
   }
 
   async store(req, res) {
-    const admin = await User.findOne({
-      where: { id: req.userId, name: 'Administrador' },
-    });
-
-    if (!admin) {
-      return res
-        .status(401)
-        .json({ erro: 'Somente administrador pode listar planos' });
-    }
-
     const schema = Yup.object().shape({
       title: Yup.string().required(),
       duration: Yup.number().required(),
@@ -44,7 +34,17 @@ class PlanController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ erro: 'Falha de validação.' });
+      return res.status(400).json({ erro: 'Falha na validação.' });
+    }
+
+    const admin = await User.findOne({
+      where: { id: req.userId, name: 'Administrador' },
+    });
+
+    if (!admin) {
+      return res
+        .status(401)
+        .json({ erro: 'Somente administrador pode criar planos' });
     }
 
     const existPlan = await Plan.findOne({
@@ -66,16 +66,6 @@ class PlanController {
   }
 
   async update(req, res) {
-    const admin = await User.findOne({
-      where: { id: req.userId, name: 'Administrador' },
-    });
-
-    if (!admin) {
-      return res
-        .status(401)
-        .json({ erro: 'Somente administrador pode listar planos' });
-    }
-
     const schema = Yup.object().shape({
       title: Yup.string(),
       duration: Yup.number(),
@@ -84,6 +74,16 @@ class PlanController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ erro: 'Falha de validação.' });
+    }
+
+    const admin = await User.findOne({
+      where: { id: req.userId, name: 'Administrador' },
+    });
+
+    if (!admin) {
+      return res
+        .status(401)
+        .json({ erro: 'Somente administrador pode atualizar planos' });
     }
 
     const { id } = req.params;
@@ -117,7 +117,7 @@ class PlanController {
     if (!admin) {
       return res
         .status(401)
-        .json({ erro: 'Somente administrador pode listar planos' });
+        .json({ erro: 'Somente administrador pode remover planos' });
     }
 
     const plan = await Plan.findByPk(req.params.id);

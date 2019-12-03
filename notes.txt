@@ -1,1 +1,3 @@
 Gerar crypt jwt md5online: desafio02bootcamp
+TRUNCATE [ TABLE ] [ ONLY ] name [ * ] [, ... ]
+    [ RESTART IDENTITY | CONTINUE IDENTITY ] [ CASCADE | RESTRICT ] 
