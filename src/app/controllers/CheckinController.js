@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { startOfWeek, endOfWeek } from 'date-fns';
 import { Op } from 'sequelize';
 
